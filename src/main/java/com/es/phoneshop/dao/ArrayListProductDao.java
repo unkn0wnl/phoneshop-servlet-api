@@ -29,18 +29,18 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     public static ArrayListProductDao getInstance() {
-        ArrayListProductDao result = instance;
+        ArrayListProductDao localeInstance = instance;
 
-        if (result != null) {
-            return result;
-        }
+        if (localeInstance == null) {
+            synchronized (ArrayListProductDao.class) {
+                localeInstance = instance;
 
-        synchronized (ArrayListProductDao.class) {
-            if (result == null) {
-                instance = new ArrayListProductDao();
+                if (localeInstance == null) {
+                    instance = new ArrayListProductDao();
+                }
             }
-            return instance;
         }
+        return instance;
     }
 
     @Override
