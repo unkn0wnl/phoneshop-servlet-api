@@ -5,7 +5,9 @@ import com.es.phoneshop.model.product.Product;
 import java.util.List;
 
 public interface ProductDao {
-    Product getProduct(Long id);
+    Product getProductById(Long id);
+
+    Product getProductByCode(String code);
 
     List<Product> findProducts();
 
