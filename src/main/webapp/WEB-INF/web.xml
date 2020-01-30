@@ -6,12 +6,12 @@
     <display-name>Phoneshop servlet api training</display-name>
 
     <listener>
-        <listener-class>com.es.phoneshop.web.ProductDemoDataServletContextListener</listener-class>
+        <listener-class>com.es.phoneshop.web.listener.ProductDemoDataServletContextListener</listener-class>
     </listener>
 
     <servlet>
         <servlet-name>productList</servlet-name>
-        <servlet-class>com.es.phoneshop.web.ProductListPageServlet</servlet-class>
+        <servlet-class>com.es.phoneshop.web.servlet.ProductListPageServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
