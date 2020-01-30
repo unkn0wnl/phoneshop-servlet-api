@@ -4,10 +4,12 @@ import com.es.phoneshop.exception.ProductNotFoundException;
 import com.es.phoneshop.model.product.Product;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
@@ -19,6 +21,7 @@ public class ArrayListProductDao implements ProductDao {
 
     private static final Logger LOGGER;
     private static volatile ArrayListProductDao instance;
+    private static volatile Lock lock;
     private static volatile AtomicLong idCounter;
 
     static {
@@ -83,6 +86,16 @@ public class ArrayListProductDao implements ProductDao {
     public synchronized void save(Product product) {
         product.setId(idCounter.getAndIncrement());
         listOfProducts.add(product);
+    }
+
+    @Override
+    public void saveAll(Collection<? extends Product> products) {
+        try {
+            lock.lock();
+            listOfProducts.addAll(products);
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Override

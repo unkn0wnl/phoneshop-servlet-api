@@ -2,6 +2,7 @@ package com.es.phoneshop.dao;
 
 import com.es.phoneshop.model.product.Product;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface ProductDao {
@@ -12,6 +13,8 @@ public interface ProductDao {
     List<Product> findProducts();
 
     void save(Product product);
+
+    void saveAll(Collection<? extends Product> products);
 
     void delete(Long id);
 }
