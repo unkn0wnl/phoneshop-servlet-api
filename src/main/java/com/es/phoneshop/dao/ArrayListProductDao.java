@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
@@ -14,9 +15,11 @@ import static org.apache.logging.log4j.LogManager.getLogger;
 public class ArrayListProductDao implements ProductDao {
 
     public static final int EMPTY_STOCK_LEVEL = 0;
+    public static final long DEFAULT_ID_COUNTER_VALUE = 0L;
 
     private static final Logger LOGGER;
     private static volatile ArrayListProductDao instance;
+    private static volatile AtomicLong idCounter;
 
     static {
         LOGGER = getLogger(ArrayListProductDao.class);
@@ -26,6 +29,7 @@ public class ArrayListProductDao implements ProductDao {
 
     private ArrayListProductDao() {
         listOfProducts = new CopyOnWriteArrayList<>();
+        idCounter = new AtomicLong(DEFAULT_ID_COUNTER_VALUE);
     }
 
     public static ArrayListProductDao getInstance() {
@@ -64,7 +68,8 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public void save(Product product) {
+    public synchronized void save(Product product) {
+        product.setId(idCounter.getAndIncrement());
         listOfProducts.add(product);
     }
 
