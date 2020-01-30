@@ -15,7 +15,7 @@ import static org.apache.logging.log4j.LogManager.getLogger;
 public class ArrayListProductDao implements ProductDao {
 
     public static final int EMPTY_STOCK_LEVEL = 0;
-    public static final long DEFAULT_ID_COUNTER_VALUE = 0L;
+    public static final long DEFAULT_ID_COUNTER_VALUE = 1L;
 
     private static final Logger LOGGER;
     private static volatile ArrayListProductDao instance;
