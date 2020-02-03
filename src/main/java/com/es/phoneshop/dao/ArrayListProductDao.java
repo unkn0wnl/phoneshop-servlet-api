@@ -78,9 +78,7 @@ public class ArrayListProductDao implements ProductDao {
 
     @Override
     public List<Product> findProducts() {
-        return listOfProducts.stream()
-                .filter(product -> Objects.nonNull(product.getPrice()))
-                .filter(product -> product.getStock() > EMPTY_STOCK_LEVEL)
+        return this.getFilteredProductStream()
                 .collect(Collectors.toList());
     }
 
