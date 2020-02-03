@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
@@ -20,9 +21,10 @@ public class ArrayListProductDao implements ProductDao {
     public static final long DEFAULT_ID_COUNTER_VALUE = 1L;
 
     private static final Logger LOGGER;
-    private static volatile ArrayListProductDao instance;
+
     private static volatile Lock lock;
     private static volatile AtomicLong idCounter;
+    private static volatile ArrayListProductDao instance;
 
     static {
         LOGGER = getLogger(ArrayListProductDao.class);
@@ -31,6 +33,7 @@ public class ArrayListProductDao implements ProductDao {
     private List<Product> listOfProducts;
 
     private ArrayListProductDao() {
+        lock = new ReentrantLock();
         listOfProducts = new CopyOnWriteArrayList<>();
         idCounter = new AtomicLong(DEFAULT_ID_COUNTER_VALUE);
     }
@@ -58,7 +61,7 @@ public class ArrayListProductDao implements ProductDao {
                 .filter(product -> product.getId().equals(id))
                 .findFirst()
                 .orElseThrow(
-                        () -> new ProductNotFoundException("Product with not found!")
+                        () -> new ProductNotFoundException("Product not found!")
                 );
     }
 
@@ -70,7 +73,7 @@ public class ArrayListProductDao implements ProductDao {
                 .filter(product -> product.getCode().equals(code))
                 .findFirst()
                 .orElseThrow(
-                        () -> new ProductNotFoundException("Product with not found!")
+                        () -> new ProductNotFoundException("Product not found!")
                 );
     }
 
