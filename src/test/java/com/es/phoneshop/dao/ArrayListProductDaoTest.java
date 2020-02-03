@@ -29,54 +29,54 @@ public class ArrayListProductDaoTest {
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void getProductById_NullIdRef_Exception() {
+    public void getProductByIdNullIdRefException() {
         productDao.getProductById(null);
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void getProductByCode_NegativeId_Exception() {
+    public void getProductByCodeNegativeIdException() {
         productDao.getProductById(-1L);
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void getProductById_StockIsZero_Exception() {
+    public void getProductByIdStockIsZeroException() {
         productDao.getProductById(1L);
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void getProductByCode_PriceIsNull_Exception() {
+    public void getProductByCodePriceIsNullException() {
         productDao.getProductByCode("nokia3310");
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void getProductByCode_NullCodeRef_Exception() {
+    public void getProductByCodeNullCodeRefException() {
         productDao.getProductByCode(null);
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void getProductByCode_EmptyCode_Exception() {
+    public void getProductByCodeEmptyCodeException() {
         productDao.getProductByCode("");
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void getProductByCode_StockIsZero_Exception() {
+    public void getProductByCodeStockIsZeroException() {
         productDao.getProductByCode("htces4g");
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void getProductById_PriceIsNull_Exception() {
+    public void getProductByIdPriceIsNullException() {
         productDao.getProductById(2L);
     }
 
     @Test
-    public void getProductById_ExistId_ReturnProduct() {
+    public void getProductByIdExistIdReturnProduct() {
         Long expectedId = 5L;
         Product actual = productDao.getProductById(expectedId);
         assertEquals(expectedId, actual.getId());
     }
 
     @Test
-    public void getProductByCode_CodeId_ReturnProduct() {
+    public void getProductByCodeCodeIdReturnProduct() {
         String expectedCode = "xperiaxz";
         Product actual = productDao.getProductByCode(expectedCode);
         assertEquals(expectedCode, actual.getCode());
@@ -91,19 +91,19 @@ public class ArrayListProductDaoTest {
     }
 
     @Test
-    public void save_NormalProductTest() {
+    public void saveNormalProductTest() {
         Product expectedProduct = new Product("htc4g", "HTC EV 4G", new BigDecimal(320), null, 100, null);
         productDao.save(expectedProduct);
         assertEquals(expectedProduct, productDao.getProductByCode("htc4g"));
     }
 
     @Test(expected = NullPointerException.class)
-    public void save_NullProduct_NPE() {
+    public void saveNullProductNPE() {
         productDao.save(null);
     }
 
     @Test(expected = ProductNotFoundException.class)
-    public void delete_ExistedProduct_Void() {
+    public void deleteExistedProductVoid() {
         Product product = productDao.getProductByCode("htc4g");
         productDao.delete(product.getId());
         productDao.getProductById(product.getId());
