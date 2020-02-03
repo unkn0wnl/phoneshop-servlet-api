@@ -10,6 +10,7 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
 
@@ -51,9 +52,7 @@ public class ArrayListProductDao implements ProductDao {
 
     @Override
     public Product getProductById(Long id) {
-        return listOfProducts.stream()
-                .filter(product -> Objects.nonNull(product.getPrice()))
-                .filter(product -> product.getStock() > EMPTY_STOCK_LEVEL)
+        return this.getFilteredProductStream()
                 .filter(product -> product.getId().equals(id))
                 .findFirst()
                 .orElseThrow(
@@ -63,14 +62,18 @@ public class ArrayListProductDao implements ProductDao {
 
     @Override
     public Product getProductByCode(String code) {
-        return listOfProducts.stream()
-                .filter(product -> Objects.nonNull(product.getPrice()))
-                .filter(product -> product.getStock() > EMPTY_STOCK_LEVEL)
+        return this.getFilteredProductStream()
                 .filter(product -> product.getCode().equals(code))
                 .findFirst()
                 .orElseThrow(
                         () -> new ProductNotFoundException("Product not found!")
                 );
+    }
+
+    private Stream<Product> getFilteredProductStream() {
+        return listOfProducts.stream()
+                .filter(product -> Objects.nonNull(product.getPrice()))
+                .filter(product -> product.getStock() > EMPTY_STOCK_LEVEL);
     }
 
     @Override
