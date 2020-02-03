@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import static org.apache.logging.log4j.LogManager.getLogger;
@@ -22,7 +20,6 @@ public class ArrayListProductDao implements ProductDao {
 
     private static final Logger LOGGER;
 
-    private static volatile Lock lock;
     private static volatile AtomicLong idCounter;
     private static volatile ArrayListProductDao instance;
 
@@ -33,7 +30,6 @@ public class ArrayListProductDao implements ProductDao {
     private List<Product> listOfProducts;
 
     private ArrayListProductDao() {
-        lock = new ReentrantLock();
         listOfProducts = new CopyOnWriteArrayList<>();
         idCounter = new AtomicLong(DEFAULT_ID_COUNTER_VALUE);
     }
@@ -92,13 +88,8 @@ public class ArrayListProductDao implements ProductDao {
     }
 
     @Override
-    public void saveAll(Collection<? extends Product> products) {
-        try {
-            lock.lock();
-            listOfProducts.addAll(products);
-        } finally {
-            lock.unlock();
-        }
+    public synchronized void saveAll(Collection<? extends Product> products) {
+        products.forEach(this::save);
     }
 
     @Override
