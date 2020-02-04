@@ -1,5 +1,6 @@
 package com.es.phoneshop.web;
 
+import com.es.phoneshop.web.servlet.ProductListPageServlet;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProductListPageServletTest {
+
     @Mock
     private HttpServletRequest request;
     @Mock
@@ -28,14 +30,14 @@ public class ProductListPageServletTest {
     private ProductListPageServlet servlet = new ProductListPageServlet();
 
     @Before
-    public void setup(){
+    public void setup() throws ServletException {
+        servlet.init();
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
     }
 
     @Test
     public void testDoGet() throws ServletException, IOException {
         servlet.doGet(request, response);
-
         verify(requestDispatcher).forward(request, response);
     }
 }
