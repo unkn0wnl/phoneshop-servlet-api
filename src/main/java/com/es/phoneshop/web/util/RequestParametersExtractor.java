@@ -32,4 +32,11 @@ public class RequestParametersExtractor {
         return request.getParameter(SEARCH_QUERY);
     }
 
+    public static Long getProductId(HttpServletRequest request) {
+        final int productIndex = 1;
+        String path = request.getPathInfo();
+        String pathId = path.substring(productIndex);
+        return Long.valueOf(path);
+    }
+
 }

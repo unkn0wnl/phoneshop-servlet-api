@@ -60,7 +60,7 @@ public class ArrayListProductDao implements ProductDao {
                 .filter(product -> product.getId().equals(id))
                 .findFirst()
                 .orElseThrow(
-                        () -> new ProductNotFoundException("Product not found!")
+                        () -> new ProductNotFoundException("Product not found! Product ID: " + id)
                 );
     }
 
