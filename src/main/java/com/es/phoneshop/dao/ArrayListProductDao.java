@@ -2,8 +2,11 @@ package com.es.phoneshop.dao;
 
 import com.es.phoneshop.exception.ProductNotFoundException;
 import com.es.phoneshop.model.product.Product;
+import com.es.phoneshop.model.product.ProductSortingField;
+import com.es.phoneshop.model.product.ProductSortingOrder;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +21,7 @@ public class ArrayListProductDao implements ProductDao {
 
     public static final int EMPTY_STOCK_LEVEL = 0;
     public static final long DEFAULT_ID_COUNTER_VALUE = 1L;
+    public static final String SPACE_PATTERN = "\\s+";
 
     private static final Logger LOGGER;
 
@@ -99,4 +103,34 @@ public class ArrayListProductDao implements ProductDao {
                 product -> product.getId().equals(id)
         );
     }
+
+    private Stream<Product> getFilteredProductStreamBySearchQuery(String query) {
+        final String[] wordsOfQuery = query.split(SPACE_PATTERN);
+
+        return this.getFilteredProductStream()
+                .filter(
+                        product -> Arrays.stream(wordsOfQuery)
+                                .anyMatch(word -> product.getDescription().toLowerCase().contains(word.toLowerCase()))
+                );
+    }
+
+    @Override
+    public List<Product> findProducts(final String query, final ProductSortingField field,
+                                      final ProductSortingOrder order) {
+        final Stream<Product> mainStream;
+
+        if (Objects.nonNull(query)) {
+            mainStream = this.getFilteredProductStreamBySearchQuery(query);
+        } else {
+            mainStream = this.getFilteredProductStream();
+        }
+
+        if (field != null && order != null) {
+            return mainStream
+                    .sorted(order == ProductSortingOrder.ASCENDING ? field : field.reversed())
+                    .collect(Collectors.toList());
+        }
+        return mainStream.collect(Collectors.toList());
+    }
+
 }
