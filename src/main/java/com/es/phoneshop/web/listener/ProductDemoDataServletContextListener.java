@@ -9,14 +9,20 @@ import javax.servlet.ServletContextListener;
 import java.math.BigDecimal;
 import java.util.Currency;
 
+import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.DEFAULT_DATA_DAO_INIT;
+
 public class ProductDemoDataServletContextListener implements ServletContextListener {
 
     private ProductDao productDao;
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        productDao = ArrayListProductDao.getInstance();
-        loadSampleDataToProductDao(productDao);
+        Boolean param = Boolean.valueOf(sce.getServletContext().getInitParameter(DEFAULT_DATA_DAO_INIT));
+
+        if (param) {
+            productDao = ArrayListProductDao.getInstance();
+            loadSampleDataToProductDao(productDao);
+        }
     }
 
     @Override

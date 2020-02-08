@@ -14,8 +14,11 @@ public final class ApplicationConstants {
 
         public static final String PRODUCTS = "products";
 
+        public static final String DEFAULT_DATA_DAO_INIT = "initDaoWithDemoData";
+
         private WebConstants() {
         }
     }
+
 
 }
