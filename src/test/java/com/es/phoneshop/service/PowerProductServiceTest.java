@@ -40,7 +40,7 @@ public class PowerProductServiceTest {
 
     @Test
     public void findProductsNormalQueryNullFieldNullOrderTest() {
-        List<Product> expectedProducts = Arrays.asList(productDao.findProducts().get(0), productDao.findProducts().get(1));
+        List<Product> expectedProducts = Arrays.asList(productDao.getProductByCode("palmp"), productDao.getProductByCode("simc56"));
         List<Product> actualProducts = productService.findProducts("pal c56", null, null);
         assertEquals(expectedProducts, actualProducts);
     }
