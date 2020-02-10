@@ -34,10 +34,36 @@
                 </td>
                 <td><a href="products/${product.id}">${product.description}</a></td>
                 <td class="price">
-                    <fmt:formatNumber value="${product.price}" type="currency"
-                                      currencySymbol="${product.currency.symbol}"/>
+                    <div class="box">
+                        <c:choose>
+                            <c:when test="${product.priceHistories.size() > 0}">
+                                <a class="button" href="#popup${product.id}"><fmt:formatNumber value="${product.price}"
+                                                                                               type="currency"
+                                                                                               currencySymbol="${product.currency.symbol}"/></a>
+                            </c:when>
+                            <c:when test="${product.priceHistories.size() eq 0}">
+                                <fmt:formatNumber value="${product.price}" type="currency"
+                                                  currencySymbol="${product.currency.symbol}"/>
+                            </c:when>
+                        </c:choose>
+                    </div>
                 </td>
             </tr>
+            <c:if test="${product.priceHistories.size() > 0}">
+                <div id="popup${product.id}" class="overlay">
+                    <div class="popup">
+                        <h2>Price History</h2>
+                        <a class="close" href="#">&times;</a>
+                        <div class="content">
+                            <c:forEach var="priceHistory" items="${product.priceHistories}">
+                                <div><fmt:formatNumber value="${priceHistory.oldPrice}" type="currency"
+                                                       currencySymbol="${product.currency.symbol}"/> - <fmt:formatDate
+                                        value="${priceHistory.date}"/></div>
+                            </c:forEach>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
         </c:forEach>
     </table>
 </tags:master>

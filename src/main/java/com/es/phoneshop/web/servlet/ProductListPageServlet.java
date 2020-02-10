@@ -4,6 +4,8 @@ import com.es.phoneshop.dao.ArrayListProductDao;
 import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.model.product.ProductSortingField;
 import com.es.phoneshop.model.product.ProductSortingOrder;
+import com.es.phoneshop.service.PowerProductService;
+import com.es.phoneshop.service.ProductService;
 import com.es.phoneshop.web.util.RequestParametersExtractor;
 
 import javax.servlet.ServletException;
@@ -16,11 +18,11 @@ import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.PRODUC
 
 public class ProductListPageServlet extends HttpServlet {
 
-    private ProductDao productDao;
+    private ProductService productService;
 
     @Override
     public void init() throws ServletException {
-        productDao = ArrayListProductDao.getInstance();
+        productService = PowerProductService.getInstance();
     }
 
     @Override
@@ -30,7 +32,7 @@ public class ProductListPageServlet extends HttpServlet {
         ProductSortingField field = RequestParametersExtractor.getProductSortingField(request);
         ProductSortingOrder order = RequestParametersExtractor.getProductSortingOrder(request);
 
-        request.setAttribute(PRODUCTS, productDao.findProducts(searchQuery, field, order));
+        request.setAttribute(PRODUCTS, productService.findProducts(searchQuery, field, order));
         request.getRequestDispatcher("/WEB-INF/pages/productList.jsp").forward(request, response);
     }
 
