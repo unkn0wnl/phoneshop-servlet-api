@@ -1,10 +1,10 @@
 package com.es.phoneshop.model.product;
 
 import java.math.BigDecimal;
-import java.util.Currency;
-import java.util.Objects;
+import java.util.*;
 
 public class Product {
+
     private Long id;
     private String code;
     private String description;
@@ -18,27 +18,22 @@ public class Product {
     private Currency currency;
     private int stock;
     private String imageUrl;
+    /*
+     * This List contains product price history.
+     */
+    private List<ProductPriceHistory> priceHistories = Collections.emptyList();
 
     public Product() {
     }
 
-    public Product(String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl) {
+    public Product(String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl, List<ProductPriceHistory> priceHistories) {
         this.code = code;
         this.description = description;
         this.price = price;
         this.currency = currency;
         this.stock = stock;
         this.imageUrl = imageUrl;
-    }
-
-    public Product(Long id, String code, String description, BigDecimal price, Currency currency, int stock, String imageUrl) {
-        this.id = id;
-        this.code = code;
-        this.description = description;
-        this.price = price;
-        this.currency = currency;
-        this.stock = stock;
-        this.imageUrl = imageUrl;
+        this.priceHistories = priceHistories;
     }
 
     public Product(Product product) {
@@ -49,6 +44,7 @@ public class Product {
         this.currency = product.currency;
         this.stock = product.stock;
         this.imageUrl = product.imageUrl;
+        this.priceHistories = new ArrayList<>(product.priceHistories);
     }
 
     public Long getId() {
@@ -107,6 +103,14 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public List<ProductPriceHistory> getPriceHistories() {
+        return priceHistories;
+    }
+
+    public void setPriceHistories(List<ProductPriceHistory> priceHistories) {
+        this.priceHistories = priceHistories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -118,12 +122,13 @@ public class Product {
                 Objects.equals(description, product.description) &&
                 Objects.equals(price, product.price) &&
                 Objects.equals(currency, product.currency) &&
-                Objects.equals(imageUrl, product.imageUrl);
+                Objects.equals(imageUrl, product.imageUrl) &&
+                Objects.equals(priceHistories, product.priceHistories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, description, price, currency, stock, imageUrl);
+        return Objects.hash(id, code, description, price, currency, stock, imageUrl, priceHistories);
     }
 
     @Override
@@ -136,6 +141,8 @@ public class Product {
                 ", currency=" + currency +
                 ", stock=" + stock +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", priceHistories=" + priceHistories +
                 '}';
     }
+
 }

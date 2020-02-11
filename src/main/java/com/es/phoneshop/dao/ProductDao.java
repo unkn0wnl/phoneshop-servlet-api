@@ -17,4 +17,5 @@ public interface ProductDao {
     void saveAll(Collection<? extends Product> products);
 
     void delete(Long id);
+
 }

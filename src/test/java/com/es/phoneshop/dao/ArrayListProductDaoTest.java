@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,11 +22,11 @@ public class ArrayListProductDaoTest {
     public static void setup() {
         productDao = ArrayListProductDao.getInstance();
         productDao.saveAll(
-                Arrays.asList(new Product("htces4g", "HTC EVO Shift 4G", new BigDecimal(320), null, 0, null),
-                        new Product("nokia3310", "Nokia 3310", null, null, 100, null),
-                        new Product("xperiaxz", "Sony Xperia XZ", new BigDecimal(120), null, 100, null),
-                        new Product("iphone6", "Apple iPhone 6", new BigDecimal(1000), null, 30, null),
-                        new Product("sgs", "Samsung Galaxy S", new BigDecimal(100), null, 100, null)));
+                Arrays.asList(new Product("htces4g", "HTC EVO Shift 4G", new BigDecimal(320), null, 0, null, Collections.emptyList()),
+                        new Product("nokia3310", "Nokia 3310", null, null, 100, null, Collections.emptyList()),
+                        new Product("xperiaxz", "Sony Xperia XZ", new BigDecimal(120), null, 100, null, Collections.emptyList()),
+                        new Product("iphone6", "Apple iPhone 6", new BigDecimal(1000), null, 30, null, Collections.emptyList()),
+                        new Product("sgs", "Samsung Galaxy S", new BigDecimal(100), null, 100, null, Collections.emptyList())));
     }
 
     @Test(expected = ProductNotFoundException.class)
@@ -92,7 +93,7 @@ public class ArrayListProductDaoTest {
 
     @Test
     public void saveNormalProductTest() {
-        Product expectedProduct = new Product("htc4g", "HTC EV 4G", new BigDecimal(320), null, 100, null);
+        Product expectedProduct = new Product("htc4g", "HTC EV 4G", new BigDecimal(320), null, 100, null, Collections.emptyList());
         productDao.save(expectedProduct);
         assertEquals(expectedProduct, productDao.getProductByCode("htc4g"));
     }

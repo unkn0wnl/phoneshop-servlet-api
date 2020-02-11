@@ -1,6 +1,5 @@
-package com.es.phoneshop.web;
+package com.es.phoneshop.web.servlet;
 
-import com.es.phoneshop.web.servlet.ProductListPageServlet;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,17 +7,15 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ProductListPageServletTest {
+public class ProductDetailsPageServletTest {
 
     @Mock
     private HttpServletRequest request;
@@ -27,17 +24,18 @@ public class ProductListPageServletTest {
     @Mock
     private RequestDispatcher requestDispatcher;
 
-    private ProductListPageServlet servlet = new ProductListPageServlet();
+    private ProductListPageServlet productListPageServlet = new ProductListPageServlet();
 
     @Before
-    public void setup() throws ServletException {
-        servlet.init();
+    public void setUp() throws Exception {
+        productListPageServlet.init();
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);
     }
 
     @Test
-    public void testDoGet() throws ServletException, IOException {
-        servlet.doGet(request, response);
+    public void doGetTest() throws Exception {
+        productListPageServlet.doGet(request, response);
         verify(requestDispatcher).forward(request, response);
     }
+
 }
