@@ -12,27 +12,27 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class PowerProductService implements ProductService {
+public class DefaultProductService implements ProductService {
 
     public static final String SPACE_PATTERN = "\\s+";
 
     private ProductDao productDao;
 
-    private static PowerProductService instance;
+    private static DefaultProductService instance;
 
-    private PowerProductService() {
+    private DefaultProductService() {
         productDao = ArrayListProductDao.getInstance();
     }
 
-    public static PowerProductService getInstance() {
-        PowerProductService localeInstance = instance;
+    public static DefaultProductService getInstance() {
+        DefaultProductService localeInstance = instance;
 
         if (localeInstance == null) {
             synchronized (ArrayListProductDao.class) {
                 localeInstance = instance;
 
                 if (localeInstance == null) {
-                    instance = new PowerProductService();
+                    instance = new DefaultProductService();
                 }
             }
         }

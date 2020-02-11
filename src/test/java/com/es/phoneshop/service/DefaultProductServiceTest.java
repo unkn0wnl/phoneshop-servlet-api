@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class PowerProductServiceTest {
+public class DefaultProductServiceTest {
 
     private static ProductDao productDao;
     private static ProductService productService;
@@ -24,7 +24,7 @@ public class PowerProductServiceTest {
     @BeforeClass
     public static void setUp() throws Exception {
         productDao = ArrayListProductDao.getInstance();
-        productService = PowerProductService.getInstance();
+        productService = DefaultProductService.getInstance();
 
         productDao.save(new Product("palmp", "Palm Pixi", new BigDecimal(170), null, 30, null, Collections.emptyList()));
         productDao.save(new Product("simc56", "Siemens C56", new BigDecimal(70), null, 20, null, Collections.emptyList()));

@@ -1,10 +1,8 @@
 package com.es.phoneshop.web.servlet;
 
-import com.es.phoneshop.dao.ArrayListProductDao;
-import com.es.phoneshop.dao.ProductDao;
 import com.es.phoneshop.model.product.ProductSortingField;
 import com.es.phoneshop.model.product.ProductSortingOrder;
-import com.es.phoneshop.service.PowerProductService;
+import com.es.phoneshop.service.DefaultProductService;
 import com.es.phoneshop.service.ProductService;
 import com.es.phoneshop.web.util.RequestParametersExtractor;
 
@@ -22,7 +20,7 @@ public class ProductListPageServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        productService = PowerProductService.getInstance();
+        productService = DefaultProductService.getInstance();
     }
 
     @Override
