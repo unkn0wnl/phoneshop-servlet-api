@@ -2,20 +2,19 @@ package com.es.phoneshop.model.product;
 
 import java.util.Comparator;
 
-public enum ProductSortingField implements Comparator<Product> {
+public enum ProductSortingField {
 
-    DESCRIPTION {
-        @Override
-        public int compare(Product firstProduct, Product secondProduct) {
-            return firstProduct.getDescription().compareTo(secondProduct.getDescription());
-        }
-    },
+    DESCRIPTION(Comparator.comparing(Product::getDescription)),
+    PRICE(Comparator.comparing(Product::getPrice));
 
-    PRICE {
-        @Override
-        public int compare(Product firstProduct, Product secondProduct) {
-            return firstProduct.getPrice().compareTo(secondProduct.getPrice());
-        }
+    private Comparator<Product> productComparator;
+
+    ProductSortingField(Comparator<Product> productComparator) {
+        this.productComparator = productComparator;
+    }
+
+    public Comparator<Product> getComparator() {
+        return productComparator;
     }
 
 }

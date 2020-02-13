@@ -15,10 +15,8 @@ import java.util.stream.Stream;
 public class DefaultProductService implements ProductService {
 
     public static final String SPACE_PATTERN = "\\s+";
-
-    private ProductDao productDao;
-
     private static DefaultProductService instance;
+    private ProductDao productDao;
 
     private DefaultProductService() {
         productDao = ArrayListProductDao.getInstance();
@@ -63,7 +61,7 @@ public class DefaultProductService implements ProductService {
 
         if (field != null && order != null) {
             return mainStream
-                    .sorted(order == ProductSortingOrder.ASCENDING ? field : field.reversed())
+                    .sorted(order == ProductSortingOrder.ASCENDING ? field.getComparator() : field.getComparator().reversed())
                     .collect(Collectors.toList());
         }
         return mainStream
