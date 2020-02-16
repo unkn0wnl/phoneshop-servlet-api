@@ -76,7 +76,7 @@ public class HttpSessionCartService implements CartService {
             if (existsCartItem.isPresent()) {
                 cartItem = existsCartItem.get();
                 if (cartItem.getQuantity() + quantity > product.getStock()) {
-                    throw new OutOfStockException("Error");
+                    throw new OutOfStockException("Not enough stock or incorrect stock input.");
                 }
                 cartItem.setQuantity(totalQuantity);
                 product.setStock(product.getStock() - quantity);
