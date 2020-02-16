@@ -49,5 +49,6 @@
             </c:if>
         </p>
     </form>
+    <tags:recentViewed recentProducts="${param.recentProducts}"/>
 </tags:master>
 <tags:foter/>

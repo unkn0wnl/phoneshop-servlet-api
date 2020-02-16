@@ -13,6 +13,7 @@ public interface ApplicationConstants {
         String CART = "cart";
         String ERROR = "error";
         String PRODUCT_QUANTITY = "quantity";
+        String RECENT_PRODUCTS = "recentProducts";
 
         String DEFAULT_DATA_DAO_INIT = "initDaoWithDemoData";
     }
