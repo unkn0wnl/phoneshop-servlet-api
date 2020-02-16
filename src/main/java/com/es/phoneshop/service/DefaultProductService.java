@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class DefaultProductService implements ProductService {
 
     public static final String SPACE_PATTERN = "\\s+";
-    private static DefaultProductService instance;
+    private static volatile DefaultProductService instance;
     private ProductDao productDao;
 
     private DefaultProductService() {

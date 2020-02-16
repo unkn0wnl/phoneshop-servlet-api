@@ -18,6 +18,10 @@ public class Cart {
         totalCost = new BigDecimal(DEFAULT_VALUE);
     }
 
+    public void clear() {
+        this.cartItems.clear();
+    }
+
     public BigDecimal getTotalCost() {
         return totalCost;
     }
