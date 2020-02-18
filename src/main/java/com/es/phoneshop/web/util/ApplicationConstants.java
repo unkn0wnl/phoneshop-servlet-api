@@ -16,6 +16,8 @@ public interface ApplicationConstants {
         String RECENT_PRODUCTS = "recentProducts";
 
         String DEFAULT_DATA_DAO_INIT = "initDaoWithDemoData";
+        String NUMBER_FORMAT_EXCEPTION_MESSAGE = "Number format exception!";
+        String ADDED_SUCCESSFULLY_MESSAGE = "Added successfully";
     }
 
 }
