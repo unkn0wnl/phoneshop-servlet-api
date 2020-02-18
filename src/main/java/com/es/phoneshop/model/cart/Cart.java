@@ -1,12 +1,14 @@
 package com.es.phoneshop.model.cart;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Cart {
+public class Cart implements Serializable {
 
     public static final Integer DEFAULT_VALUE = 0;
+    private static final long serialVersionUID = 464156092266614262L;
 
     private BigDecimal totalCost;
     private Integer totalQuantity;
