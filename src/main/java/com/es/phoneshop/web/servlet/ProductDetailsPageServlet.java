@@ -59,22 +59,23 @@ public class ProductDetailsPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long productId = RequestParametersExtractor.getProductId(request);
-        Product product = productDao.getProductById(productId);
         Cart sessionCart = cartService.getCart(request);
         Integer quantity = RequestParametersExtractor.getProductQuantity(request);
 
         LOGGER.info("Product ID: {}, Quantity: {}.", productId, quantity);
 
-        request.setAttribute(PRODUCT, product);
         request.setAttribute(CART, sessionCart);
 
         try {
             if (quantity != null) {
+                Product product = productDao.getProductById(productId);
                 cartService.add(sessionCart, product, quantity);
-                response.sendRedirect(request.getRequestURI()
-                        + "?message=Added successfully&quantity=" + quantity);
+                response.sendRedirect(
+                        String.format("%s?message=%s&quantity=%s",
+                                request.getRequestURI(), ADDED_SUCCESSFULLY_MESSAGE, quantity)
+                );
             } else {
-                request.setAttribute(ERROR, "Number format exception!");
+                request.setAttribute(ERROR, NUMBER_FORMAT_EXCEPTION_MESSAGE);
                 this.doGet(request, response);
             }
         } catch (OutOfStockException ex) {
