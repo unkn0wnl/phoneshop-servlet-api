@@ -38,4 +38,7 @@ public class ProductDetailsPageServletTest {
         verify(requestDispatcher).forward(request, response);
     }
 
+    @Test
+    public void doPost() {
+    }
 }

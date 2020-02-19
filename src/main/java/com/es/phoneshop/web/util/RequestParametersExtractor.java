@@ -36,7 +36,19 @@ public class RequestParametersExtractor {
         final int productIndex = 1;
         String path = request.getPathInfo();
         String pathId = path.substring(productIndex);
-        return Long.valueOf(path);
+        return Long.valueOf(pathId);
+    }
+
+    public static Integer getProductQuantity(HttpServletRequest request) {
+        String stringQuantityValue = request.getParameter(PRODUCT_QUANTITY);
+        Integer quantity = null;
+
+        try {
+            quantity = Integer.valueOf(stringQuantityValue);
+        } catch (NumberFormatException ex) {
+            request.setAttribute(ERROR, "Not a number!");
+        }
+        return quantity;
     }
 
 }

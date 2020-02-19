@@ -1,24 +1,23 @@
 package com.es.phoneshop.web.util;
 
-public final class ApplicationConstants {
+public interface ApplicationConstants {
 
-    private ApplicationConstants() {
-        throw new IllegalStateException("You can't create an instance of this class.");
+    interface WebConstants {
+        String ORDER_PARAM = "order";
+        String SEARCH_QUERY = "search";
+        String SORT_BY_PARAM = "sortBy";
+
+        String PRODUCTS = "products";
+        String PRODUCT = "product";
+
+        String CART = "cart";
+        String ERROR = "error";
+        String PRODUCT_QUANTITY = "quantity";
+        String RECENT_PRODUCTS = "recentProducts";
+
+        String DEFAULT_DATA_DAO_INIT = "initDaoWithDemoData";
+        String NUMBER_FORMAT_EXCEPTION_MESSAGE = "Number format exception!";
+        String ADDED_SUCCESSFULLY_MESSAGE = "Added successfully";
     }
-
-    public final static class WebConstants {
-
-        public static final String ORDER_PARAM = "order";
-        public static final String SEARCH_QUERY = "search";
-        public static final String SORT_BY_PARAM = "sortBy";
-
-        public static final String PRODUCTS = "products";
-
-        public static final String DEFAULT_DATA_DAO_INIT = "initDaoWithDemoData";
-
-        private WebConstants() {
-        }
-    }
-
 
 }

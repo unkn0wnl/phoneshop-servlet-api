@@ -40,5 +40,15 @@
             <td>${product.stock}</td>
         </tr>
     </table>
+    <form method="post" action="${pageContext.servletContext.contextPath}/products/${product.id}">
+        <p>
+            <input name="quantity" placeholder="Quantity" value="${not empty param.quantity ? param.quantity : 1}">
+            <button type="submit">Add to cart</button>
+            <c:if test="${not empty error}">
+                <br><span style="color: red">${error}</span>
+            </c:if>
+        </p>
+    </form>
+    <tags:recentViewed recentProducts="${param.recentProducts}"/>
 </tags:master>
 <tags:foter/>

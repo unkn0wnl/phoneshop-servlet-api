@@ -66,5 +66,6 @@
             </c:if>
         </c:forEach>
     </table>
+    <tags:recentViewed recentProducts="${param.recentProducts}"/>
 </tags:master>
 <tags:foter/>
