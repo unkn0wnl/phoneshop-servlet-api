@@ -15,6 +15,7 @@
             </a>
         </header>
         <main>
+            <jsp:include page="/cart/minicart"/>
             <jsp:doBody/>
         </main>
     </body>
