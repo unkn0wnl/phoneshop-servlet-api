@@ -15,7 +15,14 @@ public interface ApplicationConstants {
         String PRODUCT_QUANTITY = "quantity";
         String RECENT_PRODUCTS = "recentProducts";
 
+        String ERRORS = "errors";
+        String PRODUCT_ID = "productId";
+
         String DEFAULT_DATA_DAO_INIT = "initDaoWithDemoData";
+        String DELETE_ITEM_MESSAGE = "Item delete successful.";
+    }
+
+    interface Messages {
         String NUMBER_FORMAT_EXCEPTION_MESSAGE = "Number format exception!";
         String ADDED_SUCCESSFULLY_MESSAGE = "Added successfully";
     }
