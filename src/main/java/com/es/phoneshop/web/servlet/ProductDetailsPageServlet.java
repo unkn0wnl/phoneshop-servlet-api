@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.es.phoneshop.web.util.ApplicationConstants.Messages.ADDED_SUCCESSFULLY_MESSAGE;
+import static com.es.phoneshop.web.util.ApplicationConstants.Messages.NUMBER_FORMAT_EXCEPTION_MESSAGE;
 import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.*;
 import static org.apache.logging.log4j.LogManager.getLogger;
 
