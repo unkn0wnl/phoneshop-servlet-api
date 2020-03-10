@@ -55,13 +55,13 @@ public class CartPageServlet extends HttpServlet {
             } catch (OutOfStockException ex) {
                 errors.addError(new Error(ex.getProductId(), ex.getMessage()));
             }
-        }
 
-        if (!errors.hasErrors()) {
-            response.sendRedirect(String.format("%s?message=%s", request.getRequestURI(), "Cart updated!"));
-        } else {
-            request.setAttribute(ERRORS, errors);
-            this.doGet(request, response);
+            if (!errors.hasErrors()) {
+                response.sendRedirect(String.format("%s?message=%s", request.getRequestURI(), "Cart updated!"));
+            } else {
+                request.setAttribute(ERRORS, errors);
+                this.doGet(request, response);
+            }
         }
     }
 
