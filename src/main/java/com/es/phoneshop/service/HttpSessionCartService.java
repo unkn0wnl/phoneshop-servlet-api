@@ -111,7 +111,10 @@ public class HttpSessionCartService implements CartService {
             cart.getCartItems().stream()
                     .filter(cartItem -> product.getId().equals(cartItem.getProduct().getId()))
                     .findAny()
-                    .ifPresent(cartItem -> cartItem.setQuantity(quantity));
+                    .ifPresent(cartItem -> {
+                        product.setStock(product.getStock() + (cartItem.getQuantity() - quantity));
+                        cartItem.setQuantity(quantity);
+                    });
         }
         this.refresh(cart);
     }

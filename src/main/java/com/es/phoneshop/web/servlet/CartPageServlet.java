@@ -8,6 +8,7 @@ import com.es.phoneshop.web.util.RequestParametersExtractor;
 import com.es.phoneshop.web.util.RequestParamsValidator;
 import com.es.phoneshop.web.validation.Error;
 import com.es.phoneshop.web.validation.Errors;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +19,15 @@ import java.util.Map;
 
 import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.CART;
 import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.ERRORS;
+import static org.apache.logging.log4j.LogManager.getLogger;
 
 public class CartPageServlet extends HttpServlet {
+
+    private static final Logger LOGGER;
+
+    static {
+        LOGGER = getLogger(CartPageServlet.class);
+    }
 
     private CartService cartService;
     private RequestParamsValidator requestParamsValidator;
