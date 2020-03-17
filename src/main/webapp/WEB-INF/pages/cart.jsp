@@ -51,13 +51,13 @@
             </c:forEach>
             <tr>
                 <td colspan="3" style="text-align: right">Total</td>
-                <td>${cart.totalCost}</td>
+                <td>${cart.totalProductsCost}</td>
             </tr>
         </table>
         <br>
         <button>Update</button>
     </form>
-    <form>
-        <button formaction="checkout">Checkout</button>
+    <form action="checkout" method="get">
+        <input type="submit" value="Checkout">
     </form>
 </tags:master>

@@ -10,26 +10,26 @@ public class Cart implements Serializable {
     public static final Integer DEFAULT_VALUE = 0;
     private static final long serialVersionUID = 464156092266614262L;
 
-    private BigDecimal totalCost;
+    private BigDecimal totalProductsCost;
     private Integer totalQuantity;
     private List<CartItem> cartItems;
 
     public Cart() {
         totalQuantity = DEFAULT_VALUE;
         cartItems = new CopyOnWriteArrayList<>();
-        totalCost = new BigDecimal(DEFAULT_VALUE);
+        totalProductsCost = new BigDecimal(DEFAULT_VALUE);
     }
 
     public void clear() {
         this.cartItems.clear();
     }
 
-    public BigDecimal getTotalCost() {
-        return totalCost;
+    public BigDecimal getTotalProductsCost() {
+        return totalProductsCost;
     }
 
-    public void setTotalCost(BigDecimal totalCost) {
-        this.totalCost = totalCost;
+    public void setTotalProductsCost(BigDecimal totalProductsCost) {
+        this.totalProductsCost = totalProductsCost;
     }
 
     public Integer getTotalQuantity() {
@@ -51,7 +51,7 @@ public class Cart implements Serializable {
     @Override
     public String toString() {
         return "Cart: {" +
-                "totalCost=" + totalCost +
+                "totalCost=" + totalProductsCost +
                 ", totalQuantity=" + totalQuantity +
                 ", cartItems=" + cartItems +
                 '}';

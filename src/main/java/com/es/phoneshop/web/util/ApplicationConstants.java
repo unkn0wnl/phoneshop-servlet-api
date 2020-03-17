@@ -20,6 +20,11 @@ public interface ApplicationConstants {
 
         String DEFAULT_DATA_DAO_INIT = "initDaoWithDemoData";
         String DELETE_ITEM_MESSAGE = "Item delete successful.";
+
+        String ORDER_ATTRIBUTE = "order";
+        String DELIVERY_MODE = "delivery";
+        String PAYMENT_METHOD = "payment";
+        int DEFAULT_DELIVERY_COURIER_PRICE = 100;
     }
 
     interface Messages {

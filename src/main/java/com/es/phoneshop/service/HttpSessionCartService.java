@@ -157,10 +157,11 @@ public class HttpSessionCartService implements CartService {
                 .orElse(quantity);
     }
 
-    public synchronized void clear(Cart cart) {
+    @Override
+    public synchronized void clearCart(Cart cart) {
         cart.clear();
         cart.setTotalQuantity(Cart.DEFAULT_VALUE);
-        cart.setTotalCost(new BigDecimal(Cart.DEFAULT_VALUE));
+        cart.setTotalProductsCost(new BigDecimal(Cart.DEFAULT_VALUE));
     }
 
     public void refresh(Cart cart) {
@@ -169,7 +170,7 @@ public class HttpSessionCartService implements CartService {
 
         LOGGER.info("New total quantity: {}", newTotalQuantity);
 
-        cart.setTotalCost(newTotalCost);
+        cart.setTotalProductsCost(newTotalCost);
         cart.setTotalQuantity(newTotalQuantity);
     }
 
