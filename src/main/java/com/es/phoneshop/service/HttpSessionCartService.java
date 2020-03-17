@@ -34,7 +34,7 @@ public class HttpSessionCartService implements CartService {
         HttpSessionCartService localeInstance = instance;
 
         if (localeInstance == null) {
-            synchronized (ArrayListProductDao.class) {
+            synchronized (HttpSessionCartService.class) {
                 localeInstance = instance;
 
                 if (localeInstance == null) {

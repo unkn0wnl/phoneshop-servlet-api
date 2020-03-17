@@ -27,7 +27,7 @@ public class DefaultOrderService implements OrderService {
         DefaultOrderService localeInstance = instance;
 
         if (localeInstance == null) {
-            synchronized (ArrayListProductDao.class) {
+            synchronized (DefaultOrderService.class) {
                 localeInstance = instance;
 
                 if (localeInstance == null) {

@@ -26,7 +26,7 @@ public class DefaultProductService implements ProductService {
         DefaultProductService localeInstance = instance;
 
         if (localeInstance == null) {
-            synchronized (ArrayListProductDao.class) {
+            synchronized (DefaultProductService.class) {
                 localeInstance = instance;
 
                 if (localeInstance == null) {
