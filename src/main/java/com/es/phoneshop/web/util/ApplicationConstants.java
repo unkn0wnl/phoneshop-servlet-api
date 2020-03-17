@@ -25,6 +25,7 @@ public interface ApplicationConstants {
         String DELIVERY_MODE = "delivery";
         String PAYMENT_METHOD = "payment";
         int DEFAULT_DELIVERY_COURIER_PRICE = 100;
+        String ORDER = "order";
     }
 
     interface Messages {
