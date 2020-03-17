@@ -19,7 +19,7 @@ public class DefaultOrderService implements OrderService {
 
     private OrderDao orderDao;
 
-    public DefaultOrderService() {
+    private DefaultOrderService() {
         orderDao = ArrayListOrderDao.getInstance();
     }
 

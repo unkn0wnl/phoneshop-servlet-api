@@ -9,7 +9,9 @@ public class DefaultDosService implements DosService {
 
     public static final int THRESHOLD = 20;
     public static final int DEFAULT_COUNT_VALUE = 0;
+
     private static volatile DefaultDosService instance;
+
     private volatile Date lastResetDate;
     private Map<String, AtomicInteger> ipCallCount;
 
