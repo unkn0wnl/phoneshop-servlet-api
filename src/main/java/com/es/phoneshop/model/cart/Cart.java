@@ -48,4 +48,13 @@ public class Cart implements Serializable {
         this.cartItems = cartItems;
     }
 
+    @Override
+    public String toString() {
+        return "Cart: {" +
+                "totalCost=" + totalCost +
+                ", totalQuantity=" + totalQuantity +
+                ", cartItems=" + cartItems +
+                '}';
+    }
+
 }

@@ -4,7 +4,10 @@ import com.es.phoneshop.model.product.ProductSortingField;
 import com.es.phoneshop.model.product.ProductSortingOrder;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.*;
 
@@ -49,6 +52,15 @@ public class RequestParametersExtractor {
             request.setAttribute(ERROR, "Not a number!");
         }
         return quantity;
+    }
+
+    public static Map<String, String> getProductsMap(HttpServletRequest request) {
+        String[] productIds = request.getParameterValues(PRODUCT_ID);
+        String[] quantities = request.getParameterValues(PRODUCT_QUANTITY);
+
+        return IntStream.range(0, productIds.length)
+                .boxed()
+                .collect(Collectors.toMap(i -> productIds[i], i -> quantities[i]));
     }
 
 }

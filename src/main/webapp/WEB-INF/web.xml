@@ -9,7 +9,7 @@
         <param-name>initDaoWithDemoData</param-name>
         <param-value>true</param-value>
     </context-param>
-    
+
     <listener>
         <listener-class>com.es.phoneshop.web.listener.ProductDemoDataServletContextListener</listener-class>
     </listener>
@@ -26,13 +26,43 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>cartPage</servlet-name>
+        <servlet-class>com.es.phoneshop.web.servlet.CartPageServlet</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>productDetailsPage</servlet-name>
         <servlet-class>com.es.phoneshop.web.servlet.ProductDetailsPageServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>deleteCartItem</servlet-name>
+        <servlet-class>com.es.phoneshop.web.servlet.CartItemDeleteServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>miniCart</servlet-name>
+        <servlet-class>com.es.phoneshop.web.servlet.MiniCartServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>productDetailsPage</servlet-name>
         <url-pattern>/products/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>cartPage</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>deleteCartItem</servlet-name>
+        <url-pattern>/cart/deleteCartItem/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>miniCart</servlet-name>
+        <url-pattern>/cart/minicart</url-pattern>
     </servlet-mapping>
 
     <error-page>

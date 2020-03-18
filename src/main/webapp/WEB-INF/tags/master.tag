@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ tag trimDirectiveWhitespaces="true" %>
 <%@ attribute name="pageTitle" required="true" %>
 
@@ -15,6 +16,7 @@
             </a>
         </header>
         <main>
+            <jsp:include page="/WEB-INF/parts/miniCart.jsp"/>
             <jsp:doBody/>
         </main>
     </body>

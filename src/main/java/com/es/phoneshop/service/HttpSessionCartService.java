@@ -2,6 +2,7 @@ package com.es.phoneshop.service;
 
 import com.es.phoneshop.dao.ArrayListProductDao;
 import com.es.phoneshop.exception.OutOfStockException;
+import com.es.phoneshop.exception.ProductNotFoundException;
 import com.es.phoneshop.model.cart.Cart;
 import com.es.phoneshop.model.cart.CartItem;
 import com.es.phoneshop.model.product.Product;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -60,6 +62,8 @@ public class HttpSessionCartService implements CartService {
 
     @Override
     public void add(Cart cart, Product product, int quantity) {
+        Objects.requireNonNull(cart);
+        Objects.requireNonNull(product);
         synchronized (cart) {
 
             Optional<CartItem> existsCartItem = cart.getCartItems()
@@ -69,14 +73,16 @@ public class HttpSessionCartService implements CartService {
                             .equals(product))
                     .findAny();
 
+            this.validateProductQuantity(existsCartItem, product, quantity);
+            int totalQuantity = this.getTotalQuantity(existsCartItem, quantity);
 
-            int totalQuantity = this.validateProductQuantity(existsCartItem, product, quantity);
+            LOGGER.info("Total quantity: {}", totalQuantity);
 
             CartItem cartItem;
             if (existsCartItem.isPresent()) {
                 cartItem = existsCartItem.get();
-                if (cartItem.getQuantity() + quantity > product.getStock()) {
-                    throw new OutOfStockException("Not enough stock or incorrect stock input.");
+                if (quantity > product.getStock()) {
+                    throw new OutOfStockException("Not enough stock or incorrect stock input.", cartItem.getProduct().getId());
                 }
                 cartItem.setQuantity(totalQuantity);
                 product.setStock(product.getStock() - quantity);
@@ -85,23 +91,70 @@ public class HttpSessionCartService implements CartService {
                 cart.getCartItems().add(cartItem);
                 product.setStock(product.getStock() - quantity);
             }
-
+            LOGGER.info("Product quantity after: {}", product.getStock());
             this.refresh(cart);
+            LOGGER.info("Product quantity after refresh: {}", product.getStock());
+            LOGGER.info("Total quantity after refresh: {}", cart.getTotalQuantity());
 
         }
     }
 
-    private int validateProductQuantity(Optional<CartItem> existsCartItem, Product product, int quantity) {
-
-        int totalQuantity = existsCartItem
-                .map(cartItem -> cartItem.getQuantity() + quantity)
-                .orElse(quantity);
-
-        if (totalQuantity > product.getStock() || quantity <= 0) {
-            throw new OutOfStockException("Not enough stock or incorrect stock input.");
+    @Override
+    public void update(Cart cart, Product product, int quantity) {
+        Objects.requireNonNull(cart);
+        Objects.requireNonNull(product);
+        if (quantity > product.getStock() || quantity <= 0) {
+            throw new OutOfStockException("Not enough stock or incorrect stock input.", product.getId());
         }
 
-        return totalQuantity;
+        synchronized (cart) {
+            cart.getCartItems().stream()
+                    .filter(cartItem -> product.getId().equals(cartItem.getProduct().getId()))
+                    .findAny()
+                    .ifPresent(cartItem -> {
+                        product.setStock(product.getStock() + (cartItem.getQuantity() - quantity));
+                        cartItem.setQuantity(quantity);
+                    });
+        }
+        this.refresh(cart);
+    }
+
+    @Override
+    public void updateEachProduct(Cart cart, Map<Long, Integer> products) {
+        synchronized (cart) {
+            for (CartItem cartItem : cart.getCartItems()) {
+                final Long productId = cartItem.getProduct().getId();
+                if (products.containsKey(productId)) {
+                    this.update(cart, cartItem.getProduct(), products.get(productId));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void delete(Cart cart, Product product) {
+        synchronized (cart) {
+            CartItem deletedItem = cart.getCartItems()
+                    .stream()
+                    .filter(cartItem -> product.getId().equals(cartItem.getProduct().getId()))
+                    .findFirst()
+                    .orElseThrow(ProductNotFoundException::new);
+            cart.getCartItems().removeIf(deletedItem::equals);
+            product.setStock(product.getStock() + deletedItem.getQuantity());
+            this.refresh(cart);
+        }
+    }
+
+    private void validateProductQuantity(Optional<CartItem> existsCartItem, Product product, int quantity) {
+        if (quantity > product.getStock() || quantity <= 0) {
+            throw new OutOfStockException("Not enough stock or incorrect stock input.", product.getId());
+        }
+    }
+
+    private int getTotalQuantity(Optional<CartItem> existsCartItem, int quantity) {
+        return existsCartItem
+                .map(cartItem -> cartItem.getQuantity() + quantity)
+                .orElse(quantity);
     }
 
     public synchronized void clear(Cart cart) {
