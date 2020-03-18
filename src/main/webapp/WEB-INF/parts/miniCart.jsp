@@ -7,7 +7,7 @@
 <jsp:useBean id="cart" class="com.es.phoneshop.model.cart.Cart" scope="session"/>
 <a class="cart" href="${pageContext.request.contextPath}/cart" style="float: right">Cart</a>
 <a class="cart" style="float: right">
-    <div>Total cost: ${cart.totalCost}</div>
+    <div>Total cost: ${cart.totalProductsCost}</div>
     <div>Total quantity: ${cart.totalQuantity}</div>
     <h3>Products:</h3>
     <div>

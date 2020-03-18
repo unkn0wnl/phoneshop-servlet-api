@@ -13,6 +13,9 @@ import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.*;
 
 public class RequestParametersExtractor {
 
+    public static final String SLASH = "/";
+    public static final String EMPTY_STRING = "";
+
     public static ProductSortingField getProductSortingField(HttpServletRequest request) {
         String sortBy = request.getParameter(SORT_BY_PARAM);
 
@@ -61,6 +64,10 @@ public class RequestParametersExtractor {
         return IntStream.range(0, productIds.length)
                 .boxed()
                 .collect(Collectors.toMap(i -> productIds[i], i -> quantities[i]));
+    }
+
+    public static String extractOrderUuid(HttpServletRequest request) {
+        return request.getPathInfo().replaceAll(SLASH, EMPTY_STRING);
     }
 
 }

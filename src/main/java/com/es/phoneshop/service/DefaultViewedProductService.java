@@ -20,7 +20,7 @@ public class DefaultViewedProductService implements ViewedProductService {
         DefaultViewedProductService localeInstance = instance;
 
         if (localeInstance == null) {
-            synchronized (ArrayListProductDao.class) {
+            synchronized (DefaultViewedProductService.class) {
                 localeInstance = instance;
 
                 if (localeInstance == null) {
