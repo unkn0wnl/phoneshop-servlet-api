@@ -44,12 +44,12 @@
         <servlet-name>miniCart</servlet-name>
         <servlet-class>com.es.phoneshop.web.servlet.MiniCartServlet</servlet-class>
     </servlet>
-    
+
     <servlet>
         <servlet-name>checkout</servlet-name>
         <servlet-class>com.es.phoneshop.web.servlet.CheckoutPageServlet</servlet-class>
     </servlet>
-    
+
     <servlet>
         <servlet-name>orderOverview</servlet-name>
         <servlet-class>com.es.phoneshop.web.servlet.OrderOverviewPageServlet</servlet-class>
@@ -74,12 +74,12 @@
         <servlet-name>miniCart</servlet-name>
         <url-pattern>/cart/minicart</url-pattern>
     </servlet-mapping>
-    
+
     <servlet-mapping>
         <servlet-name>checkout</servlet-name>
         <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
-    
+
     <servlet-mapping>
         <servlet-name>orderOverview</servlet-name>
         <url-pattern>/order/overview/*</url-pattern>
@@ -89,5 +89,12 @@
         <exception-type>com.es.phoneshop.exception.ProductNotFoundException</exception-type>
         <location>/WEB-INF/pages/errorPage.jsp</location>
     </error-page>
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://es.com</taglib-uri>
+            <taglib-location>/WEB-INF/utilFunction.tld</taglib-location>
+        </taglib>
+    </jsp-config>
 
 </web-app>

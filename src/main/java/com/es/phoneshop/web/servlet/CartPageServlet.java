@@ -7,7 +7,6 @@ import com.es.phoneshop.service.HttpSessionCartService;
 import com.es.phoneshop.web.util.RequestParametersExtractor;
 import com.es.phoneshop.web.util.RequestParamsValidator;
 import com.es.phoneshop.web.validation.Error;
-import com.es.phoneshop.web.validation.Errors;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -15,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.CART;
@@ -48,10 +49,10 @@ public class CartPageServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Map<String, String> products = RequestParametersExtractor.getProductsMap(request);
-        Errors errors = new Errors();
+        final List<Error> errors = new ArrayList<>();
         Map<Long, Integer> validProducts = requestParamsValidator.validateUpdateCartProducts(products, errors);
 
-        if (errors.hasErrors()) {
+        if (!errors.isEmpty()) {
             request.setAttribute(ERRORS, errors);
             this.doGet(request, response);
         } else {
@@ -61,10 +62,10 @@ public class CartPageServlet extends HttpServlet {
             try {
                 cartService.updateEachProduct(cart, validProducts);
             } catch (OutOfStockException ex) {
-                errors.addError(new Error(ex.getProductId(), ex.getMessage()));
+                errors.add(new Error(ex.getProductId(), ex.getMessage()));
             }
 
-            if (!errors.hasErrors()) {
+            if (errors.isEmpty()) {
                 response.sendRedirect(String.format("%s?message=%s", request.getRequestURI(), "Cart updated!"));
             } else {
                 request.setAttribute(ERRORS, errors);
