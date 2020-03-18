@@ -38,10 +38,10 @@
                 </td>
             </tr>
         </c:forEach>
-
         <tr>
             <td colspan="3" style="text-align: right">Total</td>
-            <td>$${order.totalOrderCost}</td>
+            <td><fmt:formatNumber value="${order.totalOrderCost}" type="currency"
+                                  currencySymbol="${product.currency.symbol}"/></td>
         </tr>
     </table>
 
@@ -62,13 +62,15 @@
         Delivery address: ${order.contactDetails.deliveryAddress}
     </p>
     <p>
-        Products cost: $${order.totalProductsCost}
+        Products cost: <fmt:formatNumber value="${order.totalProductsCost}" type="currency"
+                                         currencySymbol="${product.currency.symbol}"/>
     </p>
     <p>
         Delivery: ${order.deliveryMode.name()}
     </p>
     <p>
-        Delivery cost: $${order.deliveryMode.deliveryCost}
+        Delivery cost: <fmt:formatNumber value="${order.deliveryMode.deliveryCost}" type="currency"
+                                         currencySymbol="${product.currency.symbol}"/>
     </p>
     <p>
         Payment method: ${order.paymentMethod.name()}
