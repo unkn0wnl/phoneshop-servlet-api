@@ -2,7 +2,7 @@ package com.es.phoneshop.model.order;
 
 import java.math.BigDecimal;
 
-import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.DEFAULT_DELIVERY_COURIER_PRICE;
+import static com.es.phoneshop.web.util.ApplicationConstants.DEFAULT_DELIVERY_COURIER_PRICE;
 
 public enum DeliveryMode {
 
