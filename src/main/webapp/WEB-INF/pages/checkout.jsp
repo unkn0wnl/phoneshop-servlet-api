@@ -5,14 +5,17 @@
 
 <tags:master pageTitle="Order">
     <p>Order</p>
+    <c:if test="${not empty errors}">
+        <span style="color:red">Error placing order</span>
+    </c:if>
     <table>
         <thead>
-            <tr>
-                <td>Image</td>
-                <td>Description</td>
-                <td>Quantity</td>
-                <td class="price">Price</td>
-            </tr>
+        <tr>
+            <td>Image</td>
+            <td>Description</td>
+            <td>Quantity</td>
+            <td class="price">Price</td>
+        </tr>
         </thead>
         <c:forEach var="cartItem" items="${order.cartItems}">
             <tr>
@@ -40,34 +43,33 @@
         </tr>
     </table>
     <br>
-    <c:url value="/checkout" var="checoutUrl"/>
-    <form method="post" action="${checoutUrl}">
+    <form method="post" action="${pageContext.request.contextPath}/checkout">
         <p>
             <label for="firstName">First Name:</label>
             <input id="firstName" name="firstName" value="${param.firstName}">
-            <c:if test="${not empty firstNameError}">
-                <span style="color: red">${firstNameError}</span>
+            <c:if test="${errors.containsKey('firstName')}">
+                <br><span style="color: red">${errors['firstName']}</span>
             </c:if>
         </p>
         <p>
             <label for="lastName">Last Name:</label>
             <input id="lastName" name="lastName" value="${param.lastName}">
-            <c:if test="${not empty lastNameError}">
-                <span style="color: red">${lastNameError}</span>
+            <c:if test="${errors.containsKey('lastName')}">
+                <br><span style="color: red">${errors['lastName']}</span>
             </c:if>
         </p>
         <p>
             <label for="phone">Phone:</label>
             <input id="phone" name="phone" value="${param.phone}">
-            <c:if test="${not empty phoneError}">
-                <span style="color: red">${phoneError}</span>
+            <c:if test="${errors.containsKey('phone')}">
+                <br><span style="color: red">${errors['phone']}</span>
             </c:if>
         </p>
         <p>
             <label for="address">Delivery address:</label>
             <input id="address" name="address" value="${param.address}">
-            <c:if test="${not empty addressError}">
-                <span style="color: red">${addressError}</span>
+            <c:if test="${errors.containsKey('address')}">
+                <br><span style="color: red">${errors['address']}</span>
             </c:if>
         </p>
         <p>

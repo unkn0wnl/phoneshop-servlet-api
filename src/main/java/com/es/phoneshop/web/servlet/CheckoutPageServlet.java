@@ -9,24 +9,39 @@ import com.es.phoneshop.service.CartService;
 import com.es.phoneshop.service.DefaultOrderService;
 import com.es.phoneshop.service.HttpSessionCartService;
 import com.es.phoneshop.service.OrderService;
+import com.es.phoneshop.web.util.RequestParamsValidator;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.*;
+import static org.apache.logging.log4j.LogManager.getLogger;
 
 public class CheckoutPageServlet extends HttpServlet {
 
+    public static final String ORDER_OVERVIEW_PATH = "/order/overview";
+    private static final Logger LOGGER;
+
+    static {
+        LOGGER = getLogger(CheckoutPageServlet.class);
+    }
+
     private CartService cartService;
     private OrderService orderService;
+    private RequestParamsValidator requestParamsValidator;
 
     @Override
     public void init() throws ServletException {
         cartService = HttpSessionCartService.getInstance();
         orderService = DefaultOrderService.getInstance();
+        requestParamsValidator = new RequestParamsValidator();
     }
 
     @Override
@@ -43,21 +58,29 @@ public class CheckoutPageServlet extends HttpServlet {
         Cart cart = cartService.getCart(request);
         Order order = orderService.createOrder(cart);
 
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String phoneNumber = request.getParameter("phone");
-        String deliveryAddress = request.getParameter("address");
+        String firstName = request.getParameter(FIRST_NAME_PARAM);
+        String lastName = request.getParameter(LAST_NAME_PARAM);
+        String phoneNumber = request.getParameter(PHONE_PARAM);
+        String deliveryAddress = request.getParameter(ADDRESS_PARAM);
+        String deliveryModeString = request.getParameter(DELIVERY_MODE_PARAM);
+        String paymentMethodString = request.getParameter(PAYMENT_METHOD_PARAM);
 
-        final ContactDetails contactDetails = new ContactDetails(firstName, lastName, phoneNumber, deliveryAddress);
+        Map<String, String> errors = new HashMap<>();
+        Optional<ContactDetails> contactDetailsOptional = requestParamsValidator
+                .validateDeliveryContactParam(firstName, lastName, phoneNumber, deliveryAddress, errors);
+        errors.entrySet().forEach(LOGGER::info);
+        if (contactDetailsOptional.isPresent()) {
+            ContactDetails contactDetails = contactDetailsOptional.get();
+            DeliveryMode deliveryMode = DeliveryMode.valueOf(deliveryModeString);
+            PaymentMethod paymentMethod = PaymentMethod.valueOf(paymentMethodString);
+            orderService.placeOrder(order, contactDetails, paymentMethod, deliveryMode);
+            cartService.clearCart(cart);
+            response.sendRedirect(String.format("%s%s/%s", request.getContextPath(), ORDER_OVERVIEW_PATH, order.getUuid()));
+        } else {
+            request.setAttribute(ERRORS, errors);
+            this.doGet(request, response);
+        }
 
-        String deliveryModeString = request.getParameter("deliveryMode");
-        DeliveryMode deliveryMode = DeliveryMode.valueOf(deliveryModeString);
-
-        String paymentMethodString = request.getParameter("paymentMethod");
-        PaymentMethod paymentMethod = PaymentMethod.valueOf(paymentMethodString);
-
-        orderService.placeOrder(order, contactDetails, paymentMethod, deliveryMode);
-        cartService.clearCart(cart);
-        response.sendRedirect(request.getContextPath() + "/order/overview/" + order.getUuid());
     }
+
 }
