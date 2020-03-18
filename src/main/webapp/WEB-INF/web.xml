@@ -54,6 +54,11 @@
         <servlet-name>orderOverview</servlet-name>
         <servlet-class>com.es.phoneshop.web.servlet.OrderOverviewPageServlet</servlet-class>
     </servlet>
+    
+    <servlet>
+        <servlet-name>advancedSearch</servlet-name>
+        <servlet-class>com.es.phoneshop.web.servlet.AdvanceSearchPageServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>productDetailsPage</servlet-name>
@@ -83,6 +88,11 @@
     <servlet-mapping>
         <servlet-name>orderOverview</servlet-name>
         <url-pattern>/order/overview/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>advancedSearch</servlet-name>
+        <url-pattern>/advancedSearch</url-pattern>
     </servlet-mapping>
 
     <error-page>

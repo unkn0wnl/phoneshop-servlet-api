@@ -1,5 +1,6 @@
 package com.es.phoneshop.web.util;
 
+import com.es.phoneshop.model.advanceSeach.WordsSearchOptions;
 import com.es.phoneshop.model.order.ContactDetails;
 import com.es.phoneshop.web.validation.Error;
 
@@ -11,6 +12,7 @@ import static com.es.phoneshop.web.util.ApplicationConstants.WebConstants.*;
 public class RequestParamsValidator {
 
     public static final String DEFAULT_PHONE_PATTERN = "\\+\\d{12}";
+    public static final int MIN_PRICE_VALUE = 0;
 
     public RequestParamsValidator() {
     }
@@ -66,6 +68,42 @@ public class RequestParamsValidator {
         return result;
     }
 
+    public Integer validatePrice(String priceString, String priceName, Map<String, String> errors) {
+        if (Objects.nonNull(priceString) && priceString.isEmpty()) {
+            return null;
+        } else if (Objects.nonNull(priceString)) {
+            Integer price = null;
+            try {
+                price = Integer.parseInt(priceString);
+            } catch (NumberFormatException ex) {
+                errors.put(priceName, "Not a number!");
+            }
+            return price;
+        } else {
+            return null;
+        }
+    }
+
+    public void validatePriceRange(Integer price, String priceName, Map<String, String> errors) {
+        if (price <= MIN_PRICE_VALUE) {
+            errors.put(priceName, "Mus be > 0");
+        }
+    }
+
+    public WordsSearchOptions validateWordsSearchOptions(String wordsSearchOptionsString, Map<String, String> errors) {
+        if (Objects.nonNull(wordsSearchOptionsString)) {
+            try {
+                return WordsSearchOptions.valueOf(wordsSearchOptionsString);
+            } catch (IllegalArgumentException e) {
+                errors.put(WORD_SEARCH_OPTION, "Invalid options!");
+                return null;
+            }
+        } else {
+            errors.put(WORD_SEARCH_OPTION, "Invalid options!");
+            return null;
+        }
+    }
+
     public boolean isStringValid(String str) {
         return str != null && !str.isEmpty();
     }
@@ -74,5 +112,4 @@ public class RequestParamsValidator {
         final Pattern phonePattern = Pattern.compile(DEFAULT_PHONE_PATTERN);
         return phonePattern.matcher(phone).matches();
     }
-
 }
