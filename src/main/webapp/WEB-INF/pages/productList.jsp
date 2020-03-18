@@ -10,6 +10,7 @@
         <input name="search" value="${param.search}">
         <button type="submit">Submit</button>
     </form>
+    <a href="advancedSearch">Advance search</a>
     <table>
         <thead>
         <tr>
