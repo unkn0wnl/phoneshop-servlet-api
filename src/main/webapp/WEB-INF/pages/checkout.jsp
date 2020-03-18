@@ -76,7 +76,7 @@
             <label for="deliveryMode">Delivery:</label>
             <select id="deliveryMode" name="deliveryMode">
                 <c:forEach var="deliveryMode" items="${delivery}">
-                    <option name="${deliveryMode}">${deliveryMode}</option>
+                    <option name="${deliveryMode}" value="${deliveryMode}">${deliveryMode.frontName}</option>
                 </c:forEach>
             </select>
         </p>
@@ -84,7 +84,7 @@
             <label for="paymentMethod">Payment method:</label>
             <select id="paymentMethod" name="paymentMethod">
                 <c:forEach var="paymentMethod" items="${payment}">
-                    <option name="${paymentMethod}">${paymentMethod}</option>
+                    <option name="${paymentMethod}" value="${paymentMethod}">${paymentMethod.frontName}</option>
                 </c:forEach>
             </select>
         </p>
